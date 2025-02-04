@@ -1,9 +1,5 @@
 name: PR Build Pipeline
-
-on:
-  pull_request:
-    branches:
-      - master
+on: workflow_dispatch
 
 jobs:
   PR_Validation:
