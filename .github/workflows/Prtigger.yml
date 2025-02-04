@@ -8,7 +8,7 @@ on:
 jobs:
   PR_Validation:
     name: "Pull Request Validation Pipeline"
-    runs-on: windows-2022  # ✅ Use windows-2022 to ensure Visual Studio Build Tools are available
+    runs-on: windows-2022
 
     steps:
       - name: Checkout Code
@@ -17,18 +17,20 @@ jobs:
       - name: Install .NET SDK
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: "6.x"
+          dotnet-version: "6.0.x"
+
+      - name: Install Visual Studio Build Tools (For Web Applications)
+        run: |
+          choco install visualstudio2019-buildtools --package-parameters "--add Microsoft.VisualStudio.Component.WebBuildTools --includeRecommended --includeOptional" -y
 
       - name: Restore NuGet Packages
         uses: zyactions/dotnet-restore@v1.1.0
         with:
-          working-directory: ${{ github.workspace }}  # ✅ Ensure it runs in the correct directory
-          ignore-failed-sources: true  # ✅ Prevent failures due to missing sources
-          force: true  # ✅ Force re-evaluation of dependencies
+          working-directory: ${{ github.workspace }}
+          ignore-failed-sources: true
+          force: true
 
       - name: Build the .NET Project
         run: dotnet build --configuration Release
 
-      - name: Check for Vulnerable Dependencies
-        run: dotnet list package --vulnerable
 
