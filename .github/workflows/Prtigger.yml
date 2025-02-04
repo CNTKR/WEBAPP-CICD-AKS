@@ -8,20 +8,11 @@ on:
 jobs:
   PR_Validation:
     name: "Pull Request Validation Pipeline"
-    runs-on: windows-2022
+    runs-on: self-hosted
 
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
-      - name: Install .NET SDK
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: "6.0.x"
-
-      - name: Install Visual Studio Build Tools (For Web Applications)
-        run: |
-          choco install visualstudio2022-buildtools --package-parameters "--add Microsoft.VisualStudio.Component.WebBuildTools --includeRecommended --includeOptional" -y
 
       - name: Restore NuGet Packages
         uses: zyactions/dotnet-restore@v1.1.0
