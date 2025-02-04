@@ -21,7 +21,7 @@ jobs:
 
       - name: Install Visual Studio Build Tools (For Web Applications)
         run: |
-          choco install visualstudio2019-buildtools --package-parameters "--add Microsoft.VisualStudio.Component.WebBuildTools --includeRecommended --includeOptional" -y
+          choco install visualstudio2022-buildtools --package-parameters "--add Microsoft.VisualStudio.Component.WebBuildTools --includeRecommended --includeOptional" -y
 
       - name: Restore NuGet Packages
         uses: zyactions/dotnet-restore@v1.1.0
