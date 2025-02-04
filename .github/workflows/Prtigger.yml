@@ -1,0 +1,26 @@
+name: PR Build Pipeline
+
+on:
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Compile Code
+      run: |
+        mvn clean install  # Replace with your build tool
+
+    - name: Secret Scanning
+      run: |
+        # Add secret scanning tool command here (e.g., trufflehog or custom script)
+
+    - name: Dependency Scanning
+      run: |
+        mvn dependency-check:check  # Dependency scanning using OWASP Dependency-Check
