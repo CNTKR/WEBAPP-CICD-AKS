@@ -16,7 +16,7 @@ jobs:
 
       - name: Restore NuGet Packages
         run: dotnet restore --ignore-failed-sources --force
-        working-directory: ${{ github.workspace }}/WEBAPP-CICD-AKS-/WEBAPP-CICD-AKS-
+        working-directory: ${{ github.workspace }}
         shell: pwsh
 
 
