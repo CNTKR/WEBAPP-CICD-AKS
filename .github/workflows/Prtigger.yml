@@ -14,13 +14,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Restore NuGet Packages
-        run: dotnet restore --ignore-failed-sources --force
-        working-directory: ${{ github.workspace }}
+      - name: Build the project
+        run: dotnet build MySolution.sln
         shell: pwsh
 
+      # - name: Restore NuGet Packages
+      #   run: dotnet restore --ignore-failed-sources --force
+      #   working-directory: ${{ github.workspace }}
+      #   shell: pwsh
 
-      - name: Build the .NET Project
-        run: dotnet build --configuration Release
+
+      # - name: Build the .NET Project
+      #   run: dotnet build --configuration Release
 
 
