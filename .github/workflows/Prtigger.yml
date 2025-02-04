@@ -27,7 +27,8 @@ jobs:
           force-evaluate: true                       # Reevaluates all dependencies
           use-lock-file: true                        # Enables project lock file usage
           lock-file-path: ${{ github.workspace }}/packages.lock.json  # Optional lock file path
-          locked-mode: false                         # Allow updating the project lock file
+          locked-mode: false
+          shell: pwsh # Allow updating the project lock file
 
       - name: Build DotNet
         uses: Elskom/build-dotnet@v1.1.1
