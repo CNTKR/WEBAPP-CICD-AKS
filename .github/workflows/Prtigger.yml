@@ -20,6 +20,7 @@ jobs:
           working-directory: ${{ github.workspace }}
           ignore-failed-sources: true
           force: true
+          shell: pwsh
 
       - name: Build the .NET Project
         run: dotnet build --configuration Release
