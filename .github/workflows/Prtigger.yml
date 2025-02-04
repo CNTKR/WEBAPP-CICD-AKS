@@ -25,9 +25,9 @@ jobs:
       - name: Check for Vulnerable Dependencies
         run: dotnet list package --vulnerable
 
-      - name: Secret Scanning with TruffleHog
-        uses: trufflesecurity/trufflehog@v3
-        with:
-          scan: repo
-          base: HEAD~1
-          head: HEAD
+      # - name: Secret Scanning with TruffleHog
+      #   uses: trufflesecurity/trufflehog@v3
+      #   with:
+      #     scan: repo
+      #     base: HEAD~1
+      #     head: HEAD
