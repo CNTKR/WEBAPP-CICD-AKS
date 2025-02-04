@@ -8,7 +8,7 @@ on:
 jobs:
   PR_Validation:
     name: "Pull Request Validation Pipeline"
-    runs-on: windows-2022  # Change from windows-latest to windows-2022
+    runs-on: windows-2022  # ✅ Use windows-2022 to ensure Visual Studio Build Tools are available
 
     steps:
       - name: Checkout Code
@@ -20,10 +20,15 @@ jobs:
           dotnet-version: "6.x"
 
       - name: Restore NuGet Packages
-        run: dotnet restore
+        uses: zyactions/dotnet-restore@v1.1.0
+        with:
+          working-directory: ${{ github.workspace }}  # ✅ Ensure it runs in the correct directory
+          ignore-failed-sources: true  # ✅ Prevent failures due to missing sources
+          force: true  # ✅ Force re-evaluation of dependencies
 
       - name: Build the .NET Project
         run: dotnet build --configuration Release
 
       - name: Check for Vulnerable Dependencies
         run: dotnet list package --vulnerable
+
