@@ -15,12 +15,10 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Restore NuGet Packages
-        uses: zyactions/dotnet-restore@v1.1.0
-        with:
-          working-directory: ${{ github.workspace }}
-          ignore-failed-sources: true
-          force: true
-          shell: pwsh
+        run: dotnet restore --ignore-failed-sources --force
+        working-directory: ${{ github.workspace }}/WEBAPP-CICD-AKS-/WEBAPP-CICD-AKS-
+        shell: pwsh
+
 
       - name: Build the .NET Project
         run: dotnet build --configuration Release
