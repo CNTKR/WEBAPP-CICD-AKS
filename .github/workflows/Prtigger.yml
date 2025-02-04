@@ -6,21 +6,28 @@ on:
       - master
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  PR_Validation:
+    name: "Pull Request Validation Pipeline"
+    runs-on: windows-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Compile Code
-      run: |
-        mvn clean install  # Replace with your build tool
+      - name: Install .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "6.x"
 
-    - name: Secret Scanning
-      run: |
-        # Add secret scanning tool command here (e.g., trufflehog or custom script)
+      - name: Build the .NET Project
+        run: dotnet build --configuration Release
 
-    - name: Dependency Scanning
-      run: |
-        mvn dependency-check:check  # Dependency scanning using OWASP Dependency-Check
+      - name: Check for Vulnerable Dependencies
+        run: dotnet list package --vulnerable
+
+      - name: Secret Scanning with TruffleHog
+        uses: trufflesecurity/trufflehog@v3
+        with:
+          scan: repo
+          base: HEAD~1
+          head: HEAD
