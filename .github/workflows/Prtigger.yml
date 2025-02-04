@@ -16,6 +16,11 @@ jobs:
 
       - name: Build the project
         run: dotnet build MySolution.sln
+        working-directory: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-
+        shell: pwsh
+
+      - name: Debug Working Directory
+        run: pwd
         shell: pwsh
 
       # - name: Restore NuGet Packages
