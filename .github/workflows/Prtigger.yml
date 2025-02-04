@@ -14,9 +14,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
+      - name: Debug Working Directory
+        run: pwd
+        shell: pwsh
+
       - name: Build the project
         run: dotnet build MySolution.sln
+        working-directory: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-
         shell: pwsh
+
+
 
       # - name: Restore NuGet Packages
       #   run: dotnet restore --ignore-failed-sources --force
