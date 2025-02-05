@@ -17,10 +17,10 @@ jobs:
       - name: Install latest .NET SDK
         uses: Elskom/setup-latest-dotnet@main
 
-      - name: Set MSBuild Path
-        run: |
-          echo "MSBuildExtensionsPath=C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild" >> $GITHUB_ENV
-        shell: pwsh
+      # - name: Set MSBuild Path
+      #   run: |
+      #     echo "MSBuildExtensionsPath=C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild" >> $GITHUB_ENV
+      #   shell: pwsh
       - name: Install dependencies
         run: dotnet restore
         shell: pwsh
