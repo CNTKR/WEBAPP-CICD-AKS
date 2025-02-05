@@ -20,9 +20,10 @@ jobs:
       #   run: |
       #     echo "MSBuildExtensionsPath=C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild" >> $GITHUB_ENV
       #   shell: pwsh
-      - name: Install dependencies
-        run: dotnet restore
+      - name: Restore NuGet Packages
+        run: nuget restore WebApplication1.sln
         shell: pwsh
+
       - name: Build
         run: '& "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" WebApplication1.sln /t:restore,build /p:Configuration=Release'
         shell: pwsh
