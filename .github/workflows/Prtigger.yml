@@ -21,9 +21,14 @@ jobs:
         run: |
           echo "MSBuildExtensionsPath=C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild" >> $GITHUB_ENV
         shell: pwsh
-
-      - name: Restore, Build, test, and pack
-        uses: Elskom/build-dotnet@main
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v4
         with:
-          TEST: true
-          PACK: true
+            dotnet-version: '6.0.x'
+      - name: Install dependencies
+        run: dotnet restore
+      - name: Build
+        run: dotnet build
+
+
+      
