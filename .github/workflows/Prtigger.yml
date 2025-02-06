@@ -28,21 +28,22 @@ jobs:
         run: '& "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" WebApplication1.sln /t:restore,build /p:Configuration=Release'
         shell: pwsh
 
-      - name: Verify Directory
-        run: |
-          if (Test-Path "C:/github-agent/_work/WEBAPP-CICD-AKS-/WEBAPP-CICD-AKS") {
-              echo "Directory exists."
-              } else {
-               echo "Directory NOT found!"; exit 1
-              }
-        shell: pwsh
+      # - name: Verify Directory
+      #   run: |
+      #     if (Test-Path "C:/github-agent/_work/WEBAPP-CICD-AKS-/WEBAPP-CICD-AKS") {
+      #         echo "Directory exists."
+      #         } else {
+      #          echo "Directory NOT found!"; exit 1
+      #         }
+      #   shell: pwsh
 
-      - name: Compress Files with Windows-Compatible Action
-        uses: papeloto/action-zip@v1
+      - name: Zip the Build Artifacts
+        uses: thedoctor0/zip-release@v1
         with:
-          files: "C:/github-agent/_work/WEBAPP-CICD-AKS-/WEBAPP-CICD-AKS"
-          dest: "C:/github-agent/_work/WEBAPP-CICD-AKS-/WEBAPP-CICD-AKS.zip"
-          recursive: true
+           path: "${{ github.workspace }}/WEBAPP-CICD-AKS"
+           filename: "WEBAPP-CICD-AKS.zip"
+           overwrite: true
+
 
  
  
