@@ -31,8 +31,8 @@ jobs:
       - name: Compress Files with Windows-Compatible Action
         uses: papeloto/action-zip@v1
         with:
-          files: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-
-          dest: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS.zip
+          files: ${{ github.workspace }}
+          dest: ${{ github.workspace }}
 
  
  
