@@ -28,12 +28,12 @@ jobs:
         run: '& "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" WebApplication1.sln /t:restore,build /p:Configuration=Release'
         shell: pwsh
         
-      - name: Compress Directory
-        uses: somaz94/compress-decompress@v1
+      - name: Compress Files with Windows-Compatible Action
+        uses: papeloto/action-zip@v1
         with:
-          command: compress
-          source: ${{ github.workspace }} 
-          format: zip
+          files: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-
+          dest: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS.zip
+
  
  
           
