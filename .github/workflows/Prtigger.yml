@@ -28,5 +28,14 @@ jobs:
         run: '& "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" WebApplication1.sln /t:restore,build /p:Configuration=Release'
         shell: pwsh
 
+        
+      - name: Compress Files and Replace Then
+        uses: ThiagoJaweb/ghaction-CompressFiles@v1.0.3
+        with:
+          path: ${{ github.workspace }}
+          extensions: zip
+ 
+ 
+          
 
       
