@@ -41,7 +41,6 @@ jobs:
         uses: papeloto/action-zip@v1
         with:
          files: "${{ github.workspace }}/WEBAPP-CICD-AKS-"
-         dest: "${{ github.workspace }}/WEBAPP-CICD-AKS.zip"
          recursive: true
 
 
