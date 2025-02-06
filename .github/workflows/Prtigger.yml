@@ -40,7 +40,7 @@ jobs:
       - name: Zip the Build Artifacts
         uses: thedoctor0/zip-release@v1
         with:
-           path: "${{ github.workspace }}/WEBAPP-CICD-AKS"
+           path: "${{ github.workspace }}/WEBAPP-CICD-AKS-"
            filename: "WEBAPP-CICD-AKS.zip"
            overwrite: true
 
