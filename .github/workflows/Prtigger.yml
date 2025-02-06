@@ -38,11 +38,13 @@ jobs:
       #   shell: pwsh
 
       - name: Zip the Build Artifacts
-        uses: thedoctor0/zip-release@v1
+        uses: papeloto/action-zip@v1
         with:
-           path: "${{ github.workspace }}/WEBAPP-CICD-AKS-"
-           filename: "WEBAPP-CICD-AKS.zip"
-           overwrite: true
+         files: "${{ github.workspace }}/WEBAPP-CICD-AKS-"
+         dest: "${{ github.workspace }}/WEBAPP-CICD-AKS.zip"
+         recursive: true
+
+
 
 
  
