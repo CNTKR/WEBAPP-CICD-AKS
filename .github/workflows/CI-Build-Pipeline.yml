@@ -49,7 +49,7 @@ jobs:
 
   CI-Docker-ImageBuild-Job:
     name: "CI-Docker-ImageBuild-Steps"
-    runs-on: self-hosted
+    runs-on: windows-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
