@@ -49,7 +49,8 @@ jobs:
 
   CI-Docker-ImageBuild-Job:
     name: "CI-Docker-ImageBuild-Steps"
-    runs-on: Self-hosted
+    # runs-on: Self-hosted
+    runs-on: windows-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
