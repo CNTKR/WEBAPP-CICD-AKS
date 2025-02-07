@@ -66,7 +66,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .  # Use current directory as build context
-          file: ${{ github.workspace }}/Dockerfile  # Path to Dockerfile
+          file: ${{ github.workspace }}/.Dockerfile  # Path to Dockerfile
           tags: my-app:latest  # Name and tag of the image
           load: true  # Load image to the local Docker daemon (for debugging)
           no-cache: false  # Use cache for faster builds
