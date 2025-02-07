@@ -2,8 +2,8 @@ name: CI-Build-Pipeline
 on: workflow_dispatch
 
 jobs:
-  PR_Validation:
-    name: "Pull Request Validation Pipeline"
+  Ci-job:
+    name: "Ci-job-steps"
     runs-on: self-hosted
     steps:
       - name: Checkout Code
