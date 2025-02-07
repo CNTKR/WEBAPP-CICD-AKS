@@ -1,4 +1,4 @@
-name: PR Build Pipeline
+name: CI-Build-Pipeline
 on: workflow_dispatch
 
 jobs:
@@ -15,36 +15,21 @@ jobs:
 
       - name: Install latest .NET SDK
         uses: Elskom/setup-latest-dotnet@main
-
-      # - name: Set MSBuild Path
-      #   run: |
-      #     echo "MSBuildExtensionsPath=C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild" >> $GITHUB_ENV
-      #   shell: pwsh
+      
       - name: Restore NuGet Packages
         run: nuget restore WebApplication1.sln
         shell: pwsh
 
+# since i could'nt find the right action  to build the .net i have manaullay specified the location to build
       - name: Build
         run: '& "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" WebApplication1.sln /t:restore,build /p:Configuration=Release'
         shell: pwsh
-
-      # - name: Verify Directory
-      #   run: |
-      #     if (Test-Path "C:/github-agent/_work/WEBAPP-CICD-AKS-/WEBAPP-CICD-AKS") {
-      #         echo "Directory exists."
-      #         } else {
-      #          echo "Directory NOT found!"; exit 1
-      #         }
-      #   shell: pwsh
-      # - name: Check Build Output
-      #   run: |
-      #     echo "Workspace Directory: ${{ github.workspace }}"
-      #     Get-ChildItem -Path "${{ github.workspace }}" -Recurse
-      #   shell: pwsh
         
       # - name: Wait for Files to Appear
       #   run: Start-Sleep -Seconds 10
       #   shell: pwsh
+
+#The bewlow archive action is not copyong the files to zip it, so skiped it (need to work on it) as a workaround directly uploaded using the upload artifact action
 
       # - name: Zip the Build Artifacts
       #   uses: papeloto/action-zip@v1
