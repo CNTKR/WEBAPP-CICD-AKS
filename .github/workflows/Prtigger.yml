@@ -36,33 +36,27 @@ jobs:
       #          echo "Directory NOT found!"; exit 1
       #         }
       #   shell: pwsh
-      - name: Check Build Output
-        run: |
-          echo "Workspace Directory: ${{ github.workspace }}"
-          Get-ChildItem -Path "${{ github.workspace }}" -Recurse
-        shell: pwsh
-      # - name: Wait for Files to Appear
-      #   run: Start-Sleep -Seconds 10
+      # - name: Check Build Output
+      #   run: |
+      #     echo "Workspace Directory: ${{ github.workspace }}"
+      #     Get-ChildItem -Path "${{ github.workspace }}" -Recurse
       #   shell: pwsh
+        
+      - name: Wait for Files to Appear
+        run: Start-Sleep -Seconds 10
+        shell: pwsh
 
-      # - name: Zip the Build Artifacts
-      #   uses: papeloto/action-zip@v1
-      #   with:
-      #    files: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-\*
-      #    recursive: true
-
-      - uses: montudor/action-zip@v1
+      - name: Zip the Build Artifacts
+        uses: papeloto/action-zip@v1
         with:
-          args: zip -qq -r vendor.zip vendor
-      - uses: actions/upload-artifact@v1
-        with:
-          name: vendor.zip
+         files: ${{ github.workspace }}
+         recursive: true
 
-      # - name: Upload Artifact
-      #   uses: actions/upload-artifact@v4
-      #   with:
-      #     name: compressed-data
-      #     path: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-\result.zip
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compressed-data
+          path: ${{ github.workspace }}/result.zip
 
 
 
