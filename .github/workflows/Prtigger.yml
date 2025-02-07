@@ -36,6 +36,12 @@ jobs:
       #          echo "Directory NOT found!"; exit 1
       #         }
       #   shell: pwsh
+      - name: Check Build Output
+        run: |
+          echo "Workspace Directory: ${{ github.workspace }}"
+          Get-ChildItem -Path "${{ github.workspace }}" -Recurse
+        shell: pwsh
+
 
       - name: Zip the Build Artifacts
         uses: papeloto/action-zip@v1
