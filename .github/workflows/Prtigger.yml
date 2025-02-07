@@ -43,6 +43,12 @@ jobs:
          files: "${{ github.workspace }}/WEBAPP-CICD-AKS-"
          recursive: true
 
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compressed-data
+          path: ${{ github.workspace }}/WEBAPP-CICD-AKS-/WEBAPP-CICD-AKS-.zip
+
 
 
 
