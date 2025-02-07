@@ -42,21 +42,21 @@ jobs:
       #     Get-ChildItem -Path "${{ github.workspace }}" -Recurse
       #   shell: pwsh
         
-      - name: Wait for Files to Appear
-        run: Start-Sleep -Seconds 10
-        shell: pwsh
+      # - name: Wait for Files to Appear
+      #   run: Start-Sleep -Seconds 10
+      #   shell: pwsh
 
-      - name: Zip the Build Artifacts
-        uses: papeloto/action-zip@v1
-        with:
-         files: ${{ github.workspace }}
-         recursive: true
+      # - name: Zip the Build Artifacts
+      #   uses: papeloto/action-zip@v1
+      #   with:
+      #    files: ${{ github.workspace }}
+      #    recursive: true
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: compressed-data
-          path: ${{ github.workspace }}/result.zip
+          path: ${{ github.workspace }}
 
 
 
