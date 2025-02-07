@@ -46,7 +46,7 @@ jobs:
       - name: Zip the Build Artifacts
         uses: papeloto/action-zip@v1
         with:
-         files: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-
+         files: ${{ github.workspace }}
          recursive: true
 
       - name: Upload Artifact
