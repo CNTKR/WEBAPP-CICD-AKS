@@ -41,19 +41,28 @@ jobs:
           echo "Workspace Directory: ${{ github.workspace }}"
           Get-ChildItem -Path "${{ github.workspace }}" -Recurse
         shell: pwsh
+      # - name: Wait for Files to Appear
+      #   run: Start-Sleep -Seconds 10
+      #   shell: pwsh
 
+      # - name: Zip the Build Artifacts
+      #   uses: papeloto/action-zip@v1
+      #   with:
+      #    files: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-\*
+      #    recursive: true
 
-      - name: Zip the Build Artifacts
-        uses: papeloto/action-zip@v1
+      - uses: montudor/action-zip@v1
         with:
-         files: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-\*
-         recursive: true
-
-      - name: Upload Artifact
-        uses: actions/upload-artifact@v4
+          args: zip -qq -r vendor.zip vendor
+      - uses: actions/upload-artifact@v2
         with:
-          name: compressed-data
-          path: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-\result.zip
+          name: vendor.zip
+
+      # - name: Upload Artifact
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: compressed-data
+      #     path: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-\result.zip
 
 
 
