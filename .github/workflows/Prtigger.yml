@@ -46,15 +46,14 @@ jobs:
       - name: Zip the Build Artifacts
         uses: papeloto/action-zip@v1
         with:
-         files: ${{ github.workspace }}
+         files: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-
          recursive: true
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: compressed-data
-          path: ${{ github.workspace }}/result.zip
-
+          path: C:\github-agent\_work\WEBAPP-CICD-AKS-\WEBAPP-CICD-AKS-\result.zip
 
 
 
