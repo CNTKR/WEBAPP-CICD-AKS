@@ -55,6 +55,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+#Facing some issues building teh image using teh inbuilt task below, so used the local command to build it.
+
       # - name: Build Docker Image
       #   uses: docker/build-push-action@v5
       #   with:
@@ -66,6 +68,10 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -f .Dockerfile -t my-app:latest .
+
+      - uses: azure/login@v1
+        with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
  
  
           
