@@ -5,4 +5,4 @@ FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8
 WORKDIR /inetpub/wwwroot
 
 # Copy the built application files into the container
-COPY ./WebOutput/ .
+COPY ${{ github.workspace }}/WebOutput/ .
