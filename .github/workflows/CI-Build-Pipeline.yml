@@ -73,6 +73,8 @@ jobs:
         with:
          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
+      - name: Verify ACR Login
+        run: az acr login --name demooneandone
 
       - name: Tag Docker Image
         run: docker tag my-app:latest demooneandone.azurecr.io/my-app:latest
