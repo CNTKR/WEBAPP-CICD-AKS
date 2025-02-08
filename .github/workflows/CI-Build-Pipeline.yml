@@ -49,8 +49,8 @@ jobs:
 
   CI-Docker-ImageBuild-Job:
     name: "CI-Docker-ImageBuild-Steps"
-    runs-on: Self-hosted
-    # runs-on: windows-latest
+    # runs-on: Self-hosted
+    runs-on: windows-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -66,7 +66,6 @@ jobs:
       - name: Build Docker Image
         run: |
           docker build -f .Dockerfile -t my-app:latest .
-        shell: cmd  # Use CMD if needed
  
  
           
