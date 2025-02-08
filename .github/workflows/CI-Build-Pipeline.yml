@@ -65,9 +65,9 @@ jobs:
       #     tags: my-app:latest  # Name and tag of the image
       #     load: true  # Load image to the local Docker daemon (for debugging)
       #     no-cache: false  # Use cache for faster builds
-      - name: Build Docker Image
-        run: |
-          docker build -f .Dockerfile -t my-app:latest .
+      # - name: Build Docker Image
+      #   run: |
+      #     docker build -f .Dockerfile -t my-app:latest .
 
       - uses: azure/login@v1
         with:
