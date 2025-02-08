@@ -55,14 +55,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # - name: Build Docker Image
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: .  # Use current directory as build context
+      #     file: ${{ github.workspace }}/.Dockerfile  # Path to Dockerfile
+      #     tags: my-app:latest  # Name and tag of the image
+      #     load: true  # Load image to the local Docker daemon (for debugging)
+      #     no-cache: false  # Use cache for faster builds
       - name: Build Docker Image
-        uses: docker/build-push-action@v5
-        with:
-          context: .  # Use current directory as build context
-          file: ${{ github.workspace }}/.Dockerfile  # Path to Dockerfile
-          tags: my-app:latest  # Name and tag of the image
-          load: true  # Load image to the local Docker daemon (for debugging)
-          no-cache: false  # Use cache for faster builds
+        run: |
+          docker build -f .Dockerfile -t my-app:latest .
+        shell: cmd  # Use CMD if needed
  
  
           
