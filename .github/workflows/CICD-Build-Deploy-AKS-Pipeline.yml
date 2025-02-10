@@ -149,7 +149,5 @@ jobs:
           namespace: default
           manifests: |
             ${{ github.workspace }}/Deployment-Service.yaml
-          images: demooneandone.azurecr.io/my-app:latest
           # imagepullsecrets: my-acr-secret  # Optional, if using ACR
-          action: deploy
-          force: true
+  
