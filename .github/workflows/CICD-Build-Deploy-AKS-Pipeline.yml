@@ -148,7 +148,7 @@ jobs:
         with:
           namespace: default
           manifests: |
-            ./deployment.yaml  # Change this path to the correct location in your repo
+            ./Deployment-Service.yaml  # Change this path to the correct location in your repo
           images: demooneandone.azurecr.io/my-app:latest
           imagepullsecrets: my-acr-secret  # Optional, if using ACR
           action: deploy
