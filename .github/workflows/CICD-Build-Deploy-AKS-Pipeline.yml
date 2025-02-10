@@ -1,101 +1,83 @@
-# This pipeline is used to build teh .net project and build docker image out of weboutput files and  push it to acr and in next stage deploy it to AKS
+# # This pipeline is used to build teh .net project and build docker image out of weboutput files and  push it to acr and in next stage deploy it to AKS
+
 name: CICD-Build-Deploy-AKS-Pipeline
 on: workflow_dispatch
 
-
-#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+# #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 jobs:
-#   CI-Dot-NetBuild-Job:
-#     name: "CI-Dot-NetBuild-Steps"
-#     runs-on: self-hosted
-#     steps:
-#       - name: Checkout Code
-#         uses: actions/checkout@v3
+  CI-Dot-NetBuild-Job:
+    name: "CI-Dot-NetBuild-Steps"
+    # runs-on: self-hosted
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-#       - name: Debug Working Directory
-#         run: pwd
-#         shell: pwsh
+      - name: Debug Working Directory
+        run: pwd
+        shell: pwsh
 
-#       - name: Install latest .NET SDK
-#         uses: Elskom/setup-latest-dotnet@main
+      - name: Install latest .NET SDK
+        uses: Elskom/setup-latest-dotnet@main
       
-#       - name: Restore NuGet Packages
-#         run: nuget restore WebApplication1.sln
-#         shell: pwsh
+      - name: Restore NuGet Packages
+        run: nuget restore WebApplication1.sln
+        shell: pwsh
 
 # # since i could'nt find the right action  to build the .net i have manaullay specified the location to build
-#       - name: Build
-#         run: '& "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" WebApplication1.sln /t:restore,build /p:Configuration=Release'
-#         shell: pwsh
+      - name: Build
+        run: '& "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" WebApplication1.sln /t:restore,build /p:Configuration=Release'
+        shell: pwsh
+
+      - name: Trivy FS Scan
+        run: |
+         trivy fs --format table -o fs.html .
         
-#       # - name: Wait for Files to Appear
-#       #   run: Start-Sleep -Seconds 10
-#       #   shell: pwsh
+      # - name: Wait for Files to Appear
+      #   run: Start-Sleep -Seconds 10
+      #   shell: pwsh
 
 # #The bewlow archive action is not copyong the files to zip it, so skiped it (need to work on it) as a workaround directly uploaded using the upload artifact action
 
-#       # - name: Zip the Build Artifacts
-#       #   uses: papeloto/action-zip@v1
-#       #   with:
-#       #    files: ${{ github.workspace }}
-#       #    recursive: true
+      # - name: Zip the Build Artifacts
+      #   uses: papeloto/action-zip@v1
+      #   with:
+      #    files: ${{ github.workspace }}
+      #    recursive: true
 
-#       - name: Upload Artifact
-#         uses: actions/upload-artifact@v4
-#         with:
-#           name: compressed-data
-#           path: ${{ github.workspace }}
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: compressed-data
+          path: ${{ github.workspace }}
 
 
-#However i want to build an image and use theimage for my deployment so will build docker image in the below steps and push it to ACR.
+# #However i want to build an image and use theimage for my deployment so will build docker image in the below steps and push it to ACR.
 
 #-----------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-  # CI-Docker-ImageBuild-Job:
-  #   name: "CI-Docker-ImageBuild-Steps"
-  #   # runs-on: Self-hosted
-  #   runs-on: windows-latest
-  #   steps:
-  #     - name: Checkout code
-  #       uses: actions/checkout@v4
-
-#Facing some issues building teh image using teh inbuilt task below, so used the local command to build it.
-
-      # - name: Build Docker Image
-      #   uses: docker/build-push-action@v5
-      #   with:
-      #     context: .  # Use current directory as build context
-      #     file: ${{ github.workspace }}/.Dockerfile  # Path to Dockerfile
-      #     tags: my-app:latest  # Name and tag of the image
-      #     load: true  # Load image to the local Docker daemon (for debugging)
-      #     no-cache: false  # Use cache for faster builds
-      # - name: Build Docker Image
-      #   run: |
-      #     docker build -f .Dockerfile -t my-app:latest .
-
-      # - uses: azure/login@v1
-      #   with:
-      #    creds: ${{ secrets.AZURE_CREDENTIALS }}
-
-      # - name: Verify ACR Login
-      #   run: az acr login --name demooneandone
-
-      # - name: Tag Docker Image
-      #   run: docker tag my-app:latest demooneandone.azurecr.io/my-app:latest
-
-      # - name: Push Docker Image to ACR
-      #   run: docker push demooneandone.azurecr.io/my-app:latest
-      
-#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
-#The below code job is to download the image form ACR in isolated task
-
-  CD-Deploy-AKS-Job:
-    name: "CD-Deploy-AKS-Steps"
+  CI-Docker-ImageBuild-Job:
+    name: "CI-Docker-ImageBuild-Steps"
     # runs-on: Self-hosted
     runs-on: windows-latest
     steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+#Facing some issues building teh image using teh inbuilt task below, so used the local command to build it.
+
+      - name: Build Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .  # Use current directory as build context
+          file: ${{ github.workspace }}/.Dockerfile  # Path to Dockerfile
+          tags: my-app:latest  # Name and tag of the image
+          load: true  # Load image to the local Docker daemon (for debugging)
+          no-cache: false  # Use cache for faster builds
+      - name: Build Docker Image
+        run: |
+          docker build -f .Dockerfile -t my-app:latest .
 
       - uses: azure/login@v1
         with:
@@ -103,9 +85,39 @@ jobs:
 
       - name: Verify ACR Login
         run: az acr login --name demooneandone
+
+      - name: Tag Docker Image
+        run: docker tag my-app:latest demooneandone.azurecr.io/my-app:latest
+
+      - name: Trivy Image Scan
+        run: |
+           trivy image --format table -o trivy-image-report.html demooneandone.azurecr.io/my-app:latest
+
+      - name: Push Docker Image to ACR
+        run: docker push demooneandone.azurecr.io/my-app:latest
+      
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#The below code job is to download the image form ACR in isolated task
+
+  # CD-Deploy-AKS-Job:
+  #   name: "CD-Deploy-AKS-Steps"
+  #   # runs-on: Self-hosted
+  #   runs-on: windows-latest
+  #   steps:
+  #     # - name: Checkout code
+  #     #   uses: actions/checkout@v4
+
+  #     - uses: azure/login@v1
+  #       with:
+  #        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+  #     - name: Verify ACR Login
+  #       run: az acr login --name demooneandone
         
-      - name: pull Docker Image from ACR
-        run: docker pull demooneandone.azurecr.io/my-app:latest
+  #     - name: pull Docker Image from ACR
+  #       run: docker pull demooneandone.azurecr.io/my-app:latest
+
+  #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
       
       
