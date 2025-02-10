@@ -123,7 +123,8 @@ jobs:
 
   #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-      
+    #The below code job is to download the image form ACR as part of deployment task and host it in aks 
+     
     CD-Deploy-AKS-Job:
      name: "CD-Deploy-AKS-Steps"
     # runs-on: Self-hosted
