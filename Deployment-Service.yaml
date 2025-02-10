@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment # Kubernetes resource kind we are creating
 metadata:
-  name: My-APp
+  name: myashesapp
 spec:
   selector:
     matchLabels:
-      app: My-APp
+      app:  myashesapp
   replicas: 2 # Number of replicas that will be created for this deployment
   template:
     metadata:
       labels:
-        app: My-APp
+        app:  myashesapp
     spec:
       containers:
-        - name: My-APp
+        - name:  myashesapp
           image: demooneandone.azurecr.io/my-app:latest # Image that will be used to containers in the cluster
           imagePullPolicy: Always
           ports:
@@ -25,10 +25,10 @@ spec:
 apiVersion: v1 # Kubernetes API version
 kind: Service # Kubernetes resource kind we are creating
 metadata: # Metadata of the resource kind we are creating
-  name: My-APp-ssvc
+  name:  myashesapp-ssvc
 spec:
   selector:
-    app: My-APp
+    app:  myashesapp
   ports:
     - protocol: "TCP"
       port: 80
