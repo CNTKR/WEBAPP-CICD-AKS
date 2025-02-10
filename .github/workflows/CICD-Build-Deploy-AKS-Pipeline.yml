@@ -129,9 +129,27 @@ jobs:
     # runs-on: Self-hosted
      runs-on: windows-latest
      steps:
-     
- 
- 
-          
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-      
+      - uses: azure/login@v1
+        with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
+         
+      - name: Verify ACR Login
+        run: az acr login --name demooneandone
+
+      - name: Set Up Kubernetes Context
+        run: az aks get-credentials --resource-group lets-freakin-do-it --name helmk8stest --admin
+        shell: pwsh
+        
+      - name: Deploy to Kubernetes Cluster
+        uses: Azure/k8s-deploy@v4
+        with:
+          namespace: default
+          manifests: |
+            ./deployment.yaml  # Change this path to the correct location in your repo
+          images: demooneandone.azurecr.io/my-app:latest
+          imagepullsecrets: my-acr-secret  # Optional, if using ACR
+          action: deploy
+          force: true
