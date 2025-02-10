@@ -1,8 +1,11 @@
-name: CI-Build-Pipeline
+# This pipeline is used to build teh .net project and build docker image out of weboutput files and  push it to acr and in next stage deploy it to AKS
+name: CICD-Build-Deploy-AKS-Pipeline
 on: workflow_dispatch
 
+
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 jobs:
-#   CD-Dot-NetBuild-Job:
+#   CI-Dot-NetBuild-Job:
 #     name: "CI-Dot-NetBuild-Steps"
 #     runs-on: self-hosted
 #     steps:
@@ -46,14 +49,15 @@ jobs:
 
 #However i want to build an image and use theimage for my deployment so will build docker image in the below steps and push it to ACR.
 
+#-----------------------------------------------------------------------------------------------------------------------------------------------------------------------#
 
-  CI-Docker-ImageBuild-Job:
-    name: "CI-Docker-ImageBuild-Steps"
-    # runs-on: Self-hosted
-    runs-on: windows-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+  # CI-Docker-ImageBuild-Job:
+  #   name: "CI-Docker-ImageBuild-Steps"
+  #   # runs-on: Self-hosted
+  #   runs-on: windows-latest
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v4
 
 #Facing some issues building teh image using teh inbuilt task below, so used the local command to build it.
 
@@ -65,9 +69,32 @@ jobs:
       #     tags: my-app:latest  # Name and tag of the image
       #     load: true  # Load image to the local Docker daemon (for debugging)
       #     no-cache: false  # Use cache for faster builds
-      - name: Build Docker Image
-        run: |
-          docker build -f .Dockerfile -t my-app:latest .
+      # - name: Build Docker Image
+      #   run: |
+      #     docker build -f .Dockerfile -t my-app:latest .
+
+      # - uses: azure/login@v1
+      #   with:
+      #    creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      # - name: Verify ACR Login
+      #   run: az acr login --name demooneandone
+
+      # - name: Tag Docker Image
+      #   run: docker tag my-app:latest demooneandone.azurecr.io/my-app:latest
+
+      # - name: Push Docker Image to ACR
+      #   run: docker push demooneandone.azurecr.io/my-app:latest
+      
+#--------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+
+  CD-Deploy-AKS-Job:
+    name: "CD-Deploy-AKS-Steps"
+    # runs-on: Self-hosted
+    runs-on: windows-latest
+    steps:
+      # - name: Checkout code
+      #   uses: actions/checkout@v4
 
       - uses: azure/login@v1
         with:
@@ -75,12 +102,10 @@ jobs:
 
       - name: Verify ACR Login
         run: az acr login --name demooneandone
-
-      - name: Tag Docker Image
-        run: docker tag my-app:latest demooneandone.azurecr.io/my-app:latest
-
-      - name: Push Docker Image to ACR
-        run: docker push demooneandone.azurecr.io/my-app:latest
+        
+      - name: pull Docker Image from ACR
+        run: docker pull demooneandone.azurecr.io/my-app:latest
+      
  
  
           
