@@ -87,6 +87,7 @@ jobs:
       #   run: docker push demooneandone.azurecr.io/my-app:latest
       
 #--------------------------------------------------------------------------------------------------------------------------------------------------------------------------#
+#The below code job is to download the image form ACR in isolated task
 
   CD-Deploy-AKS-Job:
     name: "CD-Deploy-AKS-Steps"
@@ -105,6 +106,8 @@ jobs:
         
       - name: pull Docker Image from ACR
         run: docker pull demooneandone.azurecr.io/my-app:latest
+
+      
       
  
  
