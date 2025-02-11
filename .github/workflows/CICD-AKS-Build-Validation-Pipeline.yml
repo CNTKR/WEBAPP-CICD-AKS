@@ -41,8 +41,10 @@ jobs:
         with:
           category: "security-and-quality"
 
-      - name: Upload Artifact for Main CI/CD
-        uses: actions/upload-artifact@v3
-        with:
-          name: build-output
-          path: ./bin/Release
+          
+
+      # - name: Upload Artifact for Main CI/CD
+      #   uses: actions/upload-artifact@v3
+      #   with:
+      #     name: build-output
+      #     path: ./bin/Release
