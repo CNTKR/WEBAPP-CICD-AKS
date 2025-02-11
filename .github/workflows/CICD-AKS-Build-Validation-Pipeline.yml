@@ -17,16 +17,21 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '6.0.x' # Change based on your project
+      - name: Debug Working Directory
+        run: pwd
+        shell: pwsh
 
-      - name: Restore Dependencies
-        run: dotnet restore
+      - name: Install latest .NET SDK
+        uses: Elskom/setup-latest-dotnet@main
+      
+      - name: Restore NuGet Packages
+        run: nuget restore WebApplication1.sln
+        shell: pwsh
 
-      - name: Build Application
-        run: dotnet build --no-restore --configuration Release
+      # since i could'nt find the right action  to build the .net i have manaullay specified the location to build
+      - name: Build
+        run: '& "C:\Program Files\Microsoft Visual Studio\2022\Community\MSBuild\Current\Bin\MSBuild.exe" WebApplication1.sln /t:restore,build /p:Configuration=Release'
+        shell: pwsh
 
       - name: Run Unit Tests
         run: dotnet test --no-build --configuration Release --verbosity normal
