@@ -1,0 +1,48 @@
+name: CICD-AKS-Build-Validation-Pipeline
+on:
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
+  # pull_request:
+  #   branches:
+  #     - main
+
+jobs:
+  CI-Dot-NetBuildValidation-Job:
+    name: "CI-Dot-NetBuildValidation-Steps"
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '6.0.x' # Change based on your project
+
+      - name: Restore Dependencies
+        run: dotnet restore
+
+      - name: Build Application
+        run: dotnet build --no-restore --configuration Release
+
+      - name: Run Unit Tests
+        run: dotnet test --no-build --configuration Release --verbosity normal
+
+      # Dependabot Security Scan
+      - name: Dependabot Alerts
+        uses: actions/dependabot-alerts@v1
+
+      # GitHub Advanced Security Code Scanning (CodeQL)
+      - name: GitHub Code Scanning
+        uses: github/codeql-action/analyze@v2
+        with:
+          category: "security-and-quality"
+
+      - name: Upload Artifact for Main CI/CD
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: ./bin/Release
